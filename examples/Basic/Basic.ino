@@ -4,19 +4,20 @@
 #define WM_ASYNC // Turn on Async mode
 #include "AsyncWiFiManager.h" // https://github.com/lbussy/AsyncWiFiManager
 
+
 void setup() {
-    // Put your setup code here, to run once:
+    WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP
+    // it is a good practice to make sure your code sets wifi mode how you want it.
 
-    Serial.begin(BAUD);
-
-    WiFi.mode(WIFI_STA); // Explicitly set mode, ESP defaults to STA+AP
+    // put your setup code here, to run once:
+    Serial.begin(115200);
     
-    // AsyncWiFiManager, Local intialization. Once its business is done,
-    // there is no need to keep it around
+    //WiFiManager, Local intialization. Once its business is done, there is no need to keep it around
     AsyncWiFiManager wm;
 
-    // Reset settings - wipe credentials for testing
-    // wm.resetSettings();
+    // reset settings - wipe stored credentials for testing
+    // these are stored by the esp library
+    wm.resetSettings();
 
     // Automatically connect using saved credentials,
     // if connection fails, it starts an access point with the specified name

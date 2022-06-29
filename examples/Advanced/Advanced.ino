@@ -11,84 +11,85 @@
 
 #define TRIGGER_PIN 0
 
-void checkButton();
-String getParam(String);
-void saveParamCallback();
+// wifimanager can run in a blocking mode or a non blocking mode
+// Be sure to know how to process loops with no delay() if using non blocking
+bool wm_nonblocking = false; // change to true to use non blocking
 
-AsyncWiFiManager wm;                    // global wm instance
-AsyncWiFiManagerParameter custom_field; // global param ( for non blocking w/params )
+AsyncWiFiManager wm; // global wm instance
+AsyncWiFiManagerParameter custom_field; // global param ( for non blocking w params )
 
 void setup() {
-    // Put your setup code here, to run once:
+  WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP  
+  Serial.begin(115200);
+  Serial.setDebugOutput(true);  
+  delay(3000);
+  Serial.println("\n Starting");
 
-    Serial.begin(115200);
+  pinMode(TRIGGER_PIN, INPUT);
+  
+  // wm.resetSettings(); // wipe settings
 
-    WiFi.mode(WIFI_STA); // Explicitly set mode, ESP defaults to STA+AP
+  if(wm_nonblocking) wm.setConfigPortalBlocking(false);
 
-    Serial.setDebugOutput(true);
-    delay(3000);
-    Serial.println("\n Starting");
+  // add a custom input field
+  int customFieldLength = 40;
 
-    pinMode(TRIGGER_PIN, INPUT);
 
-    // wm.resetSettings(); // wipe settings
+  // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\"");
+  
+  // test custom html input type(checkbox)
+  // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\" type=\"checkbox\""); // custom html type
+  
+  // test custom html(radio)
+  const char* custom_radio_str = "<br/><label for='customfieldid'>Custom Field Label</label><input type='radio' name='customfieldid' value='1' checked> One<br><input type='radio' name='customfieldid' value='2'> Two<br><input type='radio' name='customfieldid' value='3'> Three";
+  new (&custom_field) AsyncWiFiManagerParameter(custom_radio_str); // custom html input
+  
+  wm.addParameter(&custom_field);
+  wm.setSaveParamsCallback(saveParamCallback);
 
-    // Add a custom input field
-    int customFieldLength = 40;
+  // custom menu via array or vector
+  // 
+  // menu tokens, "wifi","wifinoscan","info","param","close","sep","erase","restart","exit" (sep is seperator) (if param is in menu, params will not show up in wifi page!)
+  // const char* menu[] = {"wifi","info","param","sep","restart","exit"}; 
+  // wm.setMenu(menu,6);
+  std::vector<const char *> menu = {"wifi","info","param","sep","restart","exit"};
+  wm.setMenu(menu);
 
-    // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\"");
+  // set dark theme
+  wm.setClass("invert");
 
-    // Test custom html input type(checkbox)
-    // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\" type=\"checkbox\""); // custom html type
 
-    // test custom html(radio)
-    const char *custom_radio_str = "<br/><label for='customfieldid'>Custom Field Label</label><input type='radio' name='customfieldid' value='1' checked> One<br><input type='radio' name='customfieldid' value='2'> Two<br><input type='radio' name='customfieldid' value='3'> Three";
-    new (&custom_field) AsyncWiFiManagerParameter(custom_radio_str); // custom html input
+  //set static ip
+  // wm.setSTAStaticIPConfig(IPAddress(10,0,1,99), IPAddress(10,0,1,1), IPAddress(255,255,255,0)); // set static ip,gw,sn
+  // wm.setShowStaticFields(true); // force show static ip fields
+  // wm.setShowDnsFields(true);    // force show dns field always
 
-    wm.addParameter(&custom_field);
-    wm.setSaveParamsCallback(saveParamCallback);
+  // wm.setConnectTimeout(20); // how long to try to connect for before continuing
+  wm.setConfigPortalTimeout(30); // auto close configportal after n seconds
+  // wm.setCaptivePortalEnable(false); // disable captive portal redirection
+  // wm.setAPClientCheck(true); // avoid timeout if client connected to softap
 
-    // Custom menu via array or vector
-    //
-    // menu tokens, "wifi","wifinoscan","info","param","close","sep","erase","restart","exit" (sep is seperator) (if param is in menu, params will not show up in wifi page!)
-    // const char* menu[] = {"wifi","info","param","sep","restart","exit"};
-    // wm.setMenu(menu,6);
-    std::vector<const char *> menu = {"wifi", "info", "param", "sep", "restart", "exit"};
-    wm.setMenu(menu);
+  // wifi scan settings
+  // wm.setRemoveDuplicateAPs(false); // do not remove duplicate ap names (true)
+  // wm.setMinimumSignalQuality(20);  // set min RSSI (percentage) to show in scans, null = 8%
+  // wm.setShowInfoErase(false);      // do not show erase button on info page
+  // wm.setScanDispPerc(true);       // show RSSI as percentage not graph icons
+  
+  // wm.setBreakAfterConfig(true);   // always exit configportal even if wifi save fails
 
-    // set dark theme
-    wm.setClass("invert");
+  bool res;
+  // res = wm.autoConnect(); // auto generated AP name from chipid
+  // res = wm.autoConnect("AutoConnectAP"); // anonymous ap
+  res = wm.autoConnect("AutoConnectAP","password"); // password protected ap
 
-    // Set static IP
-    // wm.setSTAStaticIPConfig(IPAddress(10,0,1,99), IPAddress(10,0,1,1), IPAddress(255,255,255,0)); // Set static ip, gw, sn
-    // wm.setShowStaticFields(true); // Force show static ip fields
-    // wm.setShowDnsFields(true);    // Force show dns field always
-
-    // wm.setConnectTimeout(20); // How long to try to connect before continuing
-    wm.setConfigPortalTimeout(30); // Auto close configportal after n seconds
-    // wm.setCaptivePortalEnable(false); // Disable captive portal redirection
-    // wm.setAPClientCheck(true); // Avoid timeout if client connected to softap
-
-    // WiFi scan settings
-    // wm.setRemoveDuplicateAPs(false); // Do not remove duplicate AP names (true)
-    // wm.setMinimumSignalQuality(20);  // Set min RSSI (percentage) to show in scans, null = 8%
-    // wm.setShowInfoErase(false);      // Do not show erase button on info page
-    // wm.setScanDispPerc(true);        // Show RSSI as percentage not graph icons
-
-    // wm.setBreakAfterConfig(true);   // Always exit configportal even if WiFi save fails
-
-    bool res;
-    // res = wm.autoConnect(); // Auto generated AP name from chipid
-    // res = wm.autoConnect("AutoConnectAP"); // Anonymous AP
-    res = wm.autoConnect("AutoConnectAP", "password"); // Password protected AP
-
-    if (!res) {
-        Serial.println("Failed to connect or hit timeout.");
-        // ESP.restart();
-    } else {
-        // If you get here you have connected to the WiFi
-        Serial.println("Connected.");
-    }
+  if(!res) {
+    Serial.println("Failed to connect or hit timeout");
+    // ESP.restart();
+  } 
+  else {
+    //if you get here you have connected to the WiFi    
+    Serial.println("connected...yeey :)");
+  }
 }
 
 void checkButton() {

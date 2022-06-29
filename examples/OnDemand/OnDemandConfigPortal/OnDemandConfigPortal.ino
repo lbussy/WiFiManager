@@ -25,7 +25,7 @@ void loop() {
     AsyncWiFiManager wm;    
 
     //reset settings - for testing
-    //AsyncWiFiManager.resetSettings();
+    //wm.resetSettings();
   
     // set configportal timeout
     wm.setConfigPortalTimeout(timeout);
