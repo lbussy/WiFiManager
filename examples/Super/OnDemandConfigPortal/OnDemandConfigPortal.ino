@@ -114,16 +114,16 @@ void setup() {
 
   // setup some parameters
     
-  WiFiManagerParameter custom_html("<p style=\"color:pink;font-weight:Bold;\">This Is Custom HTML</p>"); // only custom html
-  WiFiManagerParameter custom_mqtt_server("server", "mqtt server", "", 40);
-  WiFiManagerParameter custom_mqtt_port("port", "mqtt port", "", 6);
-  WiFiManagerParameter custom_token("api_token", "api token", "", 16);
-  WiFiManagerParameter custom_tokenb("invalid token", "invalid token", "", 0); // id is invalid, cannot contain spaces
-  WiFiManagerParameter custom_ipaddress("input_ip", "input IP", "", 15,"pattern='\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'"); // custom input attrs (ip mask)
-  WiFiManagerParameter custom_input_type("input_pwd", "input pass", "", 15,"type='password'"); // custom input attrs (ip mask)
+  AsyncWiFiManagerParameter custom_html("<p style=\"color:pink;font-weight:Bold;\">This Is Custom HTML</p>"); // only custom html
+  AsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", "", 40);
+  AsyncWiFiManagerParameter custom_mqtt_port("port", "mqtt port", "", 6);
+  AsyncWiFiManagerParameter custom_token("api_token", "api token", "", 16);
+  AsyncWiFiManagerParameter custom_tokenb("invalid token", "invalid token", "", 0); // id is invalid, cannot contain spaces
+  AsyncWiFiManagerParameter custom_ipaddress("input_ip", "input IP", "", 15,"pattern='\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'"); // custom input attrs (ip mask)
+  AsyncWiFiManagerParameter custom_input_type("input_pwd", "input pass", "", 15,"type='password'"); // custom input attrs (ip mask)
 
   const char _customHtml_checkbox[] = "type=\"checkbox\""; 
-  WiFiManagerParameter custom_checkbox("my_checkbox", "My Checkbox", "T", 2, _customHtml_checkbox,WFM_LABEL_AFTER);
+  AsyncWiFiManagerParameter custom_checkbox("my_checkbox", "My Checkbox", "T", 2, _customHtml_checkbox,WFM_LABEL_AFTER);
 
   const char *bufferStr = R"(
   <!-- INPUT CHOICE -->
@@ -145,7 +145,7 @@ void setup() {
   </select>
   )";
 
-  WiFiManagerParameter custom_html_inputs(bufferStr);
+  AsyncWiFiManagerParameter custom_html_inputs(bufferStr);
 
   // callbacks
   wm.setAPCallback(configModeCallback);

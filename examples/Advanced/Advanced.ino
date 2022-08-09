@@ -16,7 +16,7 @@
 bool wm_nonblocking = false; // change to true to use non blocking
 
 AsyncWiFiManager wm; // global wm instance
-AsyncWiFiManagerParameter custom_field; // global param ( for non blocking w params )
+AsyncAsyncWiFiManagerParameter custom_field; // global param ( for non blocking w params )
 
 void setup() {
   WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP  
@@ -35,14 +35,14 @@ void setup() {
   int customFieldLength = 40;
 
 
-  // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\"");
+  // new (&custom_field) AsyncAsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\"");
   
   // test custom html input type(checkbox)
-  // new (&custom_field) AsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\" type=\"checkbox\""); // custom html type
+  // new (&custom_field) AsyncAsyncWiFiManagerParameter("customfieldid", "Custom Field Label", "Custom Field Value", customFieldLength,"placeholder=\"Custom Field Placeholder\" type=\"checkbox\""); // custom html type
   
   // test custom html(radio)
   const char* custom_radio_str = "<br/><label for='customfieldid'>Custom Field Label</label><input type='radio' name='customfieldid' value='1' checked> One<br><input type='radio' name='customfieldid' value='2'> Two<br><input type='radio' name='customfieldid' value='3'> Three";
-  new (&custom_field) AsyncWiFiManagerParameter(custom_radio_str); // custom html input
+  new (&custom_field) AsyncAsyncWiFiManagerParameter(custom_radio_str); // custom html input
   
   wm.addParameter(&custom_field);
   wm.setSaveParamsCallback(saveParamCallback);

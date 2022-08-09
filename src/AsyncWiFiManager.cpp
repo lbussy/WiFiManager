@@ -20,16 +20,16 @@ uint8_t AsyncWiFiManager::_lastconxresulttmp = WL_IDLE_STATUS;
 
 /**
  * --------------------------------------------------------------------------------
- *  AsyncWiFiManagerParameter
+ *  AsyncAsyncWiFiManagerParameter
  * --------------------------------------------------------------------------------
  **/
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter()
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter()
 {
-    AsyncWiFiManagerParameter("");
+    AsyncAsyncWiFiManagerParameter("");
 }
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *custom)
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter(const char *custom)
 {
     _id = NULL;
     _label = NULL;
@@ -39,27 +39,27 @@ AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *custom)
     _customHTML = custom;
 }
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *id, const char *label)
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter(const char *id, const char *label)
 {
     init(id, label, "", 0, "", WFM_LABEL_DEFAULT);
 }
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length)
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length)
 {
     init(id, label, defaultValue, length, "", WFM_LABEL_DEFAULT);
 }
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom)
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom)
 {
     init(id, label, defaultValue, length, custom, WFM_LABEL_DEFAULT);
 }
 
-AsyncWiFiManagerParameter::AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement)
+AsyncAsyncWiFiManagerParameter::AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement)
 {
     init(id, label, defaultValue, length, custom, labelPlacement);
 }
 
-void AsyncWiFiManagerParameter::init(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement)
+void AsyncAsyncWiFiManagerParameter::init(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement)
 {
     _id = id;
     _label = label;
@@ -68,7 +68,7 @@ void AsyncWiFiManagerParameter::init(const char *id, const char *label, const ch
     setValue(defaultValue, length);
 }
 
-AsyncWiFiManagerParameter::~AsyncWiFiManagerParameter()
+AsyncAsyncWiFiManagerParameter::~AsyncAsyncWiFiManagerParameter()
 {
     if (_value != NULL)
     {
@@ -77,14 +77,14 @@ AsyncWiFiManagerParameter::~AsyncWiFiManagerParameter()
     _length = 0; // setting length 0, ideally the entire parameter should be removed, or added to wifimanager scope so it follows
 }
 
-// AsyncWiFiManagerParameter& AsyncWiFiManagerParameter::operator=(const AsyncWiFiManagerParameter& rhs){
+// AsyncAsyncWiFiManagerParameter& AsyncAsyncWiFiManagerParameter::operator=(const AsyncAsyncWiFiManagerParameter& rhs){
 //   Serial.println("copy assignment op called");
 //   (*this->_value) = (*rhs._value);
 //   return *this;
 // }
 
 // @note debug is not available in wmparameter class
-void AsyncWiFiManagerParameter::setValue(const char *defaultValue, int length)
+void AsyncAsyncWiFiManagerParameter::setValue(const char *defaultValue, int length)
 {
     if (!_id)
     {
@@ -106,32 +106,32 @@ void AsyncWiFiManagerParameter::setValue(const char *defaultValue, int length)
         strncpy(_value, defaultValue, _length);
     }
 }
-const char *AsyncWiFiManagerParameter::getValue() const
+const char *AsyncAsyncWiFiManagerParameter::getValue() const
 {
     // Serial.println(printf("Address of _value is %p\n", (void *)_value));
     return _value;
 }
-const char *AsyncWiFiManagerParameter::getID() const
+const char *AsyncAsyncWiFiManagerParameter::getID() const
 {
     return _id;
 }
-const char *AsyncWiFiManagerParameter::getPlaceholder() const
+const char *AsyncAsyncWiFiManagerParameter::getPlaceholder() const
 {
     return _label;
 }
-const char *AsyncWiFiManagerParameter::getLabel() const
+const char *AsyncAsyncWiFiManagerParameter::getLabel() const
 {
     return _label;
 }
-int AsyncWiFiManagerParameter::getValueLength() const
+int AsyncAsyncWiFiManagerParameter::getValueLength() const
 {
     return _length;
 }
-int AsyncWiFiManagerParameter::getLabelPlacement() const
+int AsyncAsyncWiFiManagerParameter::getLabelPlacement() const
 {
     return _labelPlacement;
 }
-const char *AsyncWiFiManagerParameter::getCustomHTML() const
+const char *AsyncAsyncWiFiManagerParameter::getCustomHTML() const
 {
     return _customHTML;
 }
@@ -139,9 +139,9 @@ const char *AsyncWiFiManagerParameter::getCustomHTML() const
 /**
  * [addParameter description]
  * @access public
- * @param {[type]} AsyncWiFiManagerParameter *p [description]
+ * @param {[type]} AsyncAsyncWiFiManagerParameter *p [description]
  */
-bool AsyncWiFiManager::addParameter(AsyncWiFiManagerParameter *p)
+bool AsyncWiFiManager::addParameter(AsyncAsyncWiFiManagerParameter *p)
 {
 
     // check param id is valid, unless null
@@ -163,9 +163,9 @@ bool AsyncWiFiManager::addParameter(AsyncWiFiManagerParameter *p)
     if (_params == NULL)
     {
 #ifdef WM_DEBUG_LEVEL
-        DEBUG_WM(DEBUG_DEV, F("allocating params bytes:"), _max_params * sizeof(AsyncWiFiManagerParameter *));
+        DEBUG_WM(DEBUG_DEV, F("allocating params bytes:"), _max_params * sizeof(AsyncAsyncWiFiManagerParameter *));
 #endif
-        _params = (AsyncWiFiManagerParameter **)malloc(_max_params * sizeof(AsyncWiFiManagerParameter *));
+        _params = (AsyncAsyncWiFiManagerParameter **)malloc(_max_params * sizeof(AsyncAsyncWiFiManagerParameter *));
     }
 
     // resize the params array by increment of WIFI_MANAGER_MAX_PARAMS
@@ -174,9 +174,9 @@ bool AsyncWiFiManager::addParameter(AsyncWiFiManagerParameter *p)
         _max_params += WIFI_MANAGER_MAX_PARAMS;
 #ifdef WM_DEBUG_LEVEL
         DEBUG_WM(DEBUG_DEV, F("Updated _max_params:"), _max_params);
-        DEBUG_WM(DEBUG_DEV, F("re-allocating params bytes:"), _max_params * sizeof(AsyncWiFiManagerParameter *));
+        DEBUG_WM(DEBUG_DEV, F("re-allocating params bytes:"), _max_params * sizeof(AsyncAsyncWiFiManagerParameter *));
 #endif
-        AsyncWiFiManagerParameter **new_params = (AsyncWiFiManagerParameter **)realloc(_params, _max_params * sizeof(AsyncWiFiManagerParameter *));
+        AsyncAsyncWiFiManagerParameter **new_params = (AsyncAsyncWiFiManagerParameter **)realloc(_params, _max_params * sizeof(AsyncAsyncWiFiManagerParameter *));
 #ifdef WM_DEBUG_LEVEL
 // DEBUG_WM(WIFI_MANAGER_MAX_PARAMS);
 // DEBUG_WM(_paramsCount);
@@ -208,7 +208,7 @@ bool AsyncWiFiManager::addParameter(AsyncWiFiManagerParameter *p)
  * [getParameters description]
  * @access public
  */
-AsyncWiFiManagerParameter **AsyncWiFiManager::getParameters()
+AsyncAsyncWiFiManagerParameter **AsyncWiFiManager::getParameters()
 {
     return _params;
 }
@@ -252,7 +252,7 @@ AsyncWiFiManager::~AsyncWiFiManager()
 {
     _end();
     // parameters
-    // @todo below belongs to wifimanagerparameter
+    // @todo below belongs to AsyncWiFiManagerParameter
     if (_params != NULL)
     {
 #ifdef WM_DEBUG_LEVEL
@@ -1917,7 +1917,7 @@ String AsyncWiFiManager::getParamOut()
             {
 // try to detect param scope issues, doesnt always catch but works ok
 #ifdef WM_DEBUG_LEVEL
-                DEBUG_WM(DEBUG_ERROR, F("[ERROR] AsyncWiFiManagerParameter is out of scope"));
+                DEBUG_WM(DEBUG_ERROR, F("[ERROR] AsyncAsyncWiFiManagerParameter is out of scope"));
 #endif
                 return "";
             }
@@ -2120,7 +2120,7 @@ void AsyncWiFiManager::doParamSave()
             if (_params[i] == NULL || _params[i]->_length == 0)
             {
 #ifdef WM_DEBUG_LEVEL
-                DEBUG_WM(DEBUG_ERROR, F("[ERROR] AsyncWiFiManagerParameter is out of scope"));
+                DEBUG_WM(DEBUG_ERROR, F("[ERROR] AsyncAsyncWiFiManagerParameter is out of scope"));
 #endif
                 break; // @todo might not be needed anymore
             }

@@ -1,6 +1,6 @@
 #include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 AsyncWiFiManager wm;
-AsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", "", 40);
+AsyncAsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", "", 40);
 
 void setup() {
     WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP    
