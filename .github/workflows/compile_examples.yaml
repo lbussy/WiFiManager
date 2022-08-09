@@ -53,6 +53,7 @@ jobs:
     - name: Install 3rd party dependecies
       run: | 
         pio lib -g install \
+        file://. \
         https://github.com/bblanchon/ArduinoJson \
         https://github.com/knolleary/pubsubclient
         
