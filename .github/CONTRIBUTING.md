@@ -9,4 +9,4 @@ PRs against master may be kept open if provides something useful to other member
 Please open issues before sumbitting PRs against development, as commits might be occuring very frequently.
 
 ### Documentation is in progress
-https://github.com/tzapu/AsyncWiFiManager/issues/500
+https://github.com/lbussy/AsyncWiFiManager/issues/500

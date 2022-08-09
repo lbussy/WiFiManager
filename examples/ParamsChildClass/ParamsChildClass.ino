@@ -1,7 +1,7 @@
 /**
  * AsyncWiFiManagerParameter child class example
  */
-#include <AsyncWiFiManager.h> // https://github.com/tzapu/AsyncWiFiManager
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 #include <Arduino.h>
 #include <EEPROM.h>
 

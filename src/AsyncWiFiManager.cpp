@@ -319,7 +319,7 @@ boolean AsyncWiFiManager::autoConnect(char const *apName, char const *apPassword
         _begin();
 
 // sethostname before wifi ready
-// https://github.com/tzapu/AsyncWiFiManager/issues/1403
+// https://github.com/lbussy/AsyncWiFiManager/issues/1403
 #ifdef ESP32
         if (_hostname != "")
         {

@@ -11,9 +11,9 @@ Espressif ESPx WiFi Connection manager with fallback web configuration portal
 
 ![Release](https://img.shields.io/github/v/release/tzapu/AsyncWiFiManager?include_prereleases)
 
-![Build CI Status](https://github.com/tzapu/AsyncWiFiManager/actions/workflows/compile_library.yml/badge.svg)
+![Build CI Status](https://github.com/lbussy/AsyncWiFiManager/actions/workflows/compile_library.yml/badge.svg)
 
-![Build CI Status Examples](https://github.com/tzapu/AsyncWiFiManager/actions/workflows/compile_examples.yaml/badge.svg)
+![Build CI Status Examples](https://github.com/lbussy/AsyncWiFiManager/actions/workflows/compile_examples.yaml/badge.svg)
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/AsyncWiFiManager.svg?)](https://www.ardu-badge.com/AsyncWiFiManager)
 
@@ -42,7 +42,7 @@ The configuration portal is of the captive variety, so on various devices it wil
 [https://github.com/espressif/arduino-esp32](https://github.com/espressif/arduino-esp32)
 
 ### Known Issues
-* Documentation needs to be updated, see [https://github.com/tzapu/AsyncWiFiManager/issues/500](https://github.com/tzapu/AsyncWiFiManager/issues/500)
+* Documentation needs to be updated, see [https://github.com/lbussy/AsyncWiFiManager/issues/500](https://github.com/lbussy/AsyncWiFiManager/issues/500)
 -------
 
 ## Contents
@@ -239,7 +239,7 @@ IF YOU NEED TO SAVE PARAMETERS EVEN ON WIFI FAIL OR EMPTY, you must set `setBrea
     void          setBreakAfterConfig(boolean shouldBreak);
 ```
 
-See [AutoConnectWithFSParameters Example](https://github.com/tzapu/AsyncWiFiManager/tree/master/examples/Parameters/SPIFFS/AutoConnectWithFSParameters).
+See [AutoConnectWithFSParameters Example](https://github.com/lbussy/AsyncWiFiManager/tree/master/examples/Parameters/SPIFFS/AutoConnectWithFSParameters).
 ```cpp
 AsyncWiFiManager.setSaveConfigCallback(saveConfigCallback);
 ```
@@ -279,7 +279,7 @@ void loop() {
   }
 }
 ```
-See example for a more complex version. [OnDemandConfigPortal](https://github.com/tzapu/AsyncWiFiManager/tree/master/examples/OnDemand/OnDemandConfigPortal)
+See example for a more complex version. [OnDemandConfigPortal](https://github.com/lbussy/AsyncWiFiManager/tree/master/examples/OnDemand/OnDemandConfigPortal)
 
 #### Exiting from the Configuration Portal
 Normally, once entered, the configuration portal will continue to loop until WiFi credentials have been successfully entered or a timeout is reached.
@@ -309,7 +309,7 @@ Usage scenario would be:
 This feature is a lot more involved than all the others, so here are some examples to fully show how it is done.
 You should also take a look at adding custom HTML to your form.
 
-- Save and load custom parameters to file system in json form [AutoConnectWithFSParameters](https://github.com/tzapu/AsyncWiFiManager/tree/master/examples/Parameters/SPIFFS/AutoConnectWithFSParameters)
+- Save and load custom parameters to file system in json form [AutoConnectWithFSParameters](https://github.com/lbussy/AsyncWiFiManager/tree/master/examples/Parameters/SPIFFS/AutoConnectWithFSParameters)
 - *Save and load custom parameters to EEPROM* (not done yet)
 
 #### Custom IP Configuration

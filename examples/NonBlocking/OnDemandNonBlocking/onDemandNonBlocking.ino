@@ -4,7 +4,7 @@
  * trigger pin will start a webportal for 120 seconds then turn it off.
  * startAP = true will start both the configportal AP and webportal
  */
-#include <AsyncWiFiManager.h> // https://github.com/tzapu/AsyncWiFiManager
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 
 // include MDNS
 #ifdef ESP8266

@@ -1,4 +1,4 @@
-#include <AsyncWiFiManager.h> // https://github.com/tzapu/AsyncWiFiManager
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 AsyncWiFiManager wm;
 
 void setup() {

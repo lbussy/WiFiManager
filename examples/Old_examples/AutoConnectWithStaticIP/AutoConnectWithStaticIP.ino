@@ -1,5 +1,5 @@
 #include <FS.h>          // this needs to be first, or it all crashes and burns...
-#include <AsyncWiFiManager.h> // https://github.com/tzapu/AsyncWiFiManager
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 
 /**************************************************************************************
  * this example shows how to set a static IP configuration for the ESP

@@ -1,4 +1,4 @@
-#include <AsyncWiFiManager.h> // https://github.com/tzapu/AsyncWiFiManager
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 
 void configModeCallback (AsyncWiFiManager *myAsyncWiFiManager) {
   Serial.println("Entered config mode");
