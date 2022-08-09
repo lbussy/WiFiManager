@@ -141,7 +141,7 @@ const char HTTP_HELP[] PROGMEM =
     "<tr><td>/erase</td>"
     "<td>Erase WiFi configuration and reboot Device. Device will not reconnect to a network until new WiFi configuration data is entered.</td></tr>"
     "</table>"
-    "<p/>Github <a href='https://github.com/tzapu/WiFiManager'>https://github.com/tzapu/WiFiManager</a>.";
+    "<p/>Github <a href='https://github.com/lbussy/AsyncWiFiManager'>https://github.com/lbussy/AsyncWiFiManager</a>.";
 #else
 const char HTTP_HELP[] PROGMEM = "";
 #endif
