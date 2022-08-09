@@ -11,3 +11,4 @@
 .gitignore
 .clang-format
 node_modules
+/src/*.ino
