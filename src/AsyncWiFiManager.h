@@ -423,7 +423,7 @@ public:
 #if defined(ESP32) && defined(AWM_WEBSERVERSHIM)
     using AWM_WebServer = AsyncWebServer;
 #else
-    using AWM_WebServer = ESP8266WebServer;
+    using AWM_WebServer = AsyncWebServer;
 #endif
 
     std::unique_ptr<AWM_WebServer> server;
