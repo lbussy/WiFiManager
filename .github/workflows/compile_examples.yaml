@@ -54,6 +54,8 @@ jobs:
       run: | 
         pio lib -g install \
         file://. \
+        https://github.com/me-no-dev/ESPAsyncTCP \
+        https://github.com/me-no-dev/ESPAsyncWebServer \
         https://github.com/bblanchon/ArduinoJson \
         https://github.com/knolleary/pubsubclient
         
@@ -107,6 +109,8 @@ jobs:
         run: |
           pio lib -g install \
           file://. \
+          https://github.com/me-no-dev/AsyncTCP \
+          https://github.com/me-no-dev/ESPAsyncWebServer \
           https://github.com/bblanchon/ArduinoJson \
           https://github.com/knolleary/pubsubclient
 

@@ -78,7 +78,7 @@ extern "C"
 #include "user_interface.h"
 }
 #include <ESP8266WiFi.h>
-#include <AsyncWebServer.h>
+#include <ESPAsyncWebServer.h>
 
 #ifdef AWM_MDNS
 #include <ESP8266mDNS.h>
@@ -98,10 +98,10 @@ extern "C"
 
 #ifndef WEBSERVER_H
 #ifdef AWM_WEBSERVERSHIM
-#include <AsyncWebServer.h>
+#include <ESPAsyncWebServer.h>
 #else
 #include <AsyncTCP.h>
-#include <AsyncWebServer.h>
+#include <ESPAsyncWebServer.h>
 #endif
 #endif
 
