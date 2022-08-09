@@ -1,13 +1,11 @@
-/*
+/**
  * AsyncWiFiManager.h
- *
+ * 
  * AsyncWiFiManager, a library for the ESP8266/Arduino platform
  * for configuration of WiFi credentials using a Captive Portal
- * and async libraries
- *
- * @author Creator tzapu
- * @author tablatronix
- * @author LBussy
+ * 
+ * @author Creator lbussy
+ * @author lbussy
  * @version 0.0.0
  * @license MIT
  */
@@ -23,25 +21,20 @@
 
 #include <vector>
 
-// #define WM_MDNS            // includes MDNS, also set MDNS with sethostname
+// #define AWM_MDNS            // includes MDNS, also set MDNS with sethostname
 // #define WM_FIXERASECONFIG  // use erase flash fix
-// #define WM_ERASE_NVS       // esp32 erase(true) will erase NVS
-// #define WM_RTC             // esp32 info page will include reset reasons
+// #define AWM_ERASE_NVS       // esp32 erase(true) will erase NVS
+// #define AWM_RTC             // esp32 info page will include reset reasons
 
-// #define WM_JSTEST                      // build flag for enabling js xhr tests
-// #define WIFI_MANAGER_OVERRIDE_STRINGS // build flag for using own strings include
+// #define AWM_JSTEST                      // build flag for enabling js xhr tests
+// #define ASYNC_WIFI_MANAGER_OVERRIDE_STRINGS // build flag for using own strings include
 
 #ifdef ARDUINO_ESP8266_RELEASE_2_3_0
 #warning "ARDUINO_ESP8266_RELEASE_2_3_0, some WM features disabled"
-// @todo check failing on platform = espressif8266@1.7.3
 #define WM_NOASYNC      // esp8266 no async scan wifi
 #define WM_NOCOUNTRY    // esp8266 no country
 #define WM_NOAUTH       // no httpauth
 #define WM_NOSOFTAPSSID // no softapssid() @todo shim
-#endif
-
-#ifdef ARDUINO_ESP32S3_DEV
-#define WM_NOTEMP
 #endif
 
 // #include "soc/efuse_reg.h" // include to add efuse chip rev to info, getChipRevision() is almost always the same though, so not sure why it matters.
@@ -49,7 +42,7 @@
 // #define esp32autoreconnect    // implement esp32 autoreconnect event listener kludge, @DEPRECATED
 // autoreconnect is WORKING https://github.com/espressif/arduino-esp32/issues/653#issuecomment-405604766
 
-#define WM_WEBSERVERSHIM // use webserver shim lib
+#define AWM_WEBSERVERSHIM // use webserver shim lib
 
 #define WM_G(string_literal) (String(FPSTR(string_literal)).c_str())
 
@@ -85,14 +78,14 @@ extern "C"
 #include "user_interface.h"
 }
 #include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
+#include <AsyncWebServer.h>
 
-#ifdef WM_MDNS
+#ifdef AWM_MDNS
 #include <ESP8266mDNS.h>
 #endif
 
 #define WIFI_getChipId() ESP.getChipId()
-#define WM_WIFIOPEN ENC_TYPE_NONE
+#define AWM_WIFIOPEN ENC_TYPE_NONE
 
 #elif defined(ESP32)
 
@@ -101,33 +94,27 @@ extern "C"
 #include <Update.h>
 
 #define WIFI_getChipId() (uint32_t) ESP.getEfuseMac()
-#define WM_WIFIOPEN WIFI_AUTH_OPEN
+#define AWM_WIFIOPEN WIFI_AUTH_OPEN
 
 #ifndef WEBSERVER_H
-#ifdef WM_WEBSERVERSHIM
-#include <WebServer.h>
+#ifdef AWM_WEBSERVERSHIM
+#include <AsyncWebServer.h>
 #else
-#ifdef WM_ASYNC
 #include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
-#else
-#include <ESP8266WebServer.h>
-#endif
-// Forthcoming official ?
-// https://github.com/esp8266/ESPWebServer
+#include <AsyncWebServer.h>
 #endif
 #endif
 
-#ifdef WM_ERASE_NVS
+#ifdef AWM_ERASE_NVS
 #include <nvs.h>
 #include <nvs_flash.h>
 #endif
 
-#ifdef WM_MDNS
+#ifdef AWM_MDNS
 #include <ESPmDNS.h>
 #endif
 
-#ifdef WM_RTC
+#ifdef AWM_RTC
 #include <rom/rtc.h>
 #endif
 
@@ -138,14 +125,13 @@ extern "C"
 #include <memory>
 #include "strings_en.h"
 
-#ifndef WIFI_MANAGER_MAX_PARAMS
-#define WIFI_MANAGER_MAX_PARAMS 5 // params will autoincrement and realloc by this amount when max is reached
+#ifndef ASYNC_WIFI_MANAGER_MAX_PARAMS
+#define ASYNC_WIFI_MANAGER_MAX_PARAMS 5 // params will autoincrement and realloc by this amount when max is reached
 #endif
 
-#define WFM_LABEL_BEFORE 1
-#define WFM_LABEL_AFTER 2
-#define WFM_NO_LABEL 0
-#define WFM_LABEL_DEFAULT 1
+#define AWFM_LABEL_BEFORE 1
+#define AWFM_LABEL_AFTER 2
+#define AWFM_NO_LABEL 0
 
 class AsyncWiFiManagerParameter
 {
@@ -163,13 +149,13 @@ public:
     ~AsyncWiFiManagerParameter();
     // AsyncWiFiManagerParameter& operator=(const AsyncWiFiManagerParameter& rhs);
 
-    const char *getID() const;
-    const char *getValue() const;
-    const char *getLabel() const;
-    const char *getPlaceholder() const; // @deprecated, use getLabel
-    int getValueLength() const;
-    int getLabelPlacement() const;
-    virtual const char *getCustomHTML() const;
+    const char *getID();
+    const char *getValue();
+    const char *getLabel();
+    const char *getPlaceholder(); // @deprecated, use getLabel
+    int getValueLength();
+    int getLabelPlacement();
+    const char *getCustomHTML();
     void setValue(const char *defaultValue, int length);
 
 protected:
@@ -204,13 +190,13 @@ public:
     boolean startConfigPortal(); // auto generates apname
     boolean startConfigPortal(char const *apName, char const *apPassword = NULL);
 
-    // manually stop the config portal if started manually, stop immediatly if non blocking, flag abort if blocking
+    //manually stop the config portal if started manually, stop immediatly if non blocking, flag abort if blocking
     bool stopConfigPortal();
 
     // manually start the web portal, autoconnect does this automatically on connect failure
     void startWebPortal();
 
-    // manually stop the web portal if started manually
+    //manually stop the web portal if started manually
     void stopWebPortal();
 
     // Run webserver processing, if setConfigPortalBlocking(false)
@@ -236,7 +222,7 @@ public:
     // adds a custom parameter, returns false on failure
     bool addParameter(AsyncWiFiManagerParameter *p);
 
-    // returns the list of Parameters
+    //returns the list of Parameters
     AsyncWiFiManagerParameter **getParameters();
 
     // returns the Parameters Count
@@ -247,16 +233,19 @@ public:
     // called after AP mode and config portal has started
     void setAPCallback(std::function<void(AsyncWiFiManager *)> func);
 
-    // called after webserver has started
+    //called after webserver has started
     void setWebServerCallback(std::function<void()> func);
 
-    // called when settings reset have been triggered
+    //called when settings reset have been triggered
     void setConfigResetCallback(std::function<void()> func);
 
-    // called when wifi settings have been changed and connection was successful ( or setBreakAfterConfig(true) )
+    //called when wifi settings have been changed and connection was successful ( or setBreakAfterConfig(true) )
     void setSaveConfigCallback(std::function<void()> func);
 
-    // called when saving params-in-wifi or params before anything else happens (eg wifi)
+    //called when saving either params-in-wifi or params page
+    void setSaveParamsCallback(std::function<void()> func);
+
+    //called when saving params-in-wifi or params before anything else happens (eg wifi)
     void setPreSaveConfigCallback(std::function<void()> func);
 
     // called when saving params before anything else happens
@@ -290,19 +279,19 @@ public:
     void setDebugOutput(boolean debug);
     void setDebugOutput(boolean debug, String prefix); // log line prefix, default "*wm:"
 
-    // set min quality percentage to include in scan, defaults to 8% if not specified
+    //set min quality percentage to include in scan, defaults to 8% if not specified
     void setMinimumSignalQuality(int quality = 8);
 
-    // sets a custom ip /gateway /subnet configuration
+    //sets a custom ip /gateway /subnet configuration
     void setAPStaticIPConfig(IPAddress ip, IPAddress gw, IPAddress sn);
 
-    // sets config for a static IP
+    //sets config for a static IP
     void setSTAStaticIPConfig(IPAddress ip, IPAddress gw, IPAddress sn);
 
-    // sets config for a static IP with DNS
+    //sets config for a static IP with DNS
     void setSTAStaticIPConfig(IPAddress ip, IPAddress gw, IPAddress sn, IPAddress dns);
 
-    // if this is set, it will exit after config, even if connection is unsuccessful.
+    //if this is set, it will exit after config, even if connection is unsuccessful.
     void setBreakAfterConfig(boolean shouldBreak);
 
     // if this is set, portal will be blocking and wait until save or exit,
@@ -310,34 +299,31 @@ public:
     // setConfigPortalTimeout is ignored in this mode, user is responsible for closing configportal
     void setConfigPortalBlocking(boolean shouldBlock);
 
-    // add custom html at inside <head> for all pages
-    void setCustomHeadElement(const char *html);
+    //if this is set, customise style
+    void setCustomHeadElement(const char *element);
 
-    // if this is set, customise style
-    void setCustomMenuHTML(const char *html);
-
-    // if this is true, remove duplicated Access Points - defaut true
+    //if this is true, remove duplicated Access Points - defaut true
     void setRemoveDuplicateAPs(boolean removeDuplicates);
 
-    // setter for ESP wifi.persistent so we can remember it and restore user preference, as WIFi._persistent is protected
+    //setter for ESP wifi.persistent so we can remember it and restore user preference, as WIFi._persistent is protected
     void setRestorePersistent(boolean persistent);
 
-    // if true, always show static net inputs, IP, subnet, gateway, else only show if set via setSTAStaticIPConfig
+    //if true, always show static net inputs, IP, subnet, gateway, else only show if set via setSTAStaticIPConfig
     void setShowStaticFields(boolean alwaysShow);
 
-    // if true, always show static dns, esle only show if set via setSTAStaticIPConfig
+    //if true, always show static dns, esle only show if set via setSTAStaticIPConfig
     void setShowDnsFields(boolean alwaysShow);
 
     // toggle showing the saved wifi password in wifi form, could be a security issue.
     void setShowPassword(boolean show);
 
-    // if false, disable captive portal redirection
+    //if false, disable captive portal redirection
     void setCaptivePortalEnable(boolean enabled);
 
-    // if false, timeout captive portal even if a STA client connected to softAP (false), suggest disabling if captiveportal is open
+    //if false, timeout captive portal even if a STA client connected to softAP (false), suggest disabling if captiveportal is open
     void setAPClientCheck(boolean enabled);
 
-    // if true, reset timeout when webclient connects (true), suggest disabling if captiveportal is open
+    //if true, reset timeout when webclient connects (true), suggest disabling if captiveportal is open
     void setWebPortalClientCheck(boolean enabled);
 
     // if true, enable autoreconnecting
@@ -349,12 +335,8 @@ public:
     // if true (default) then start the config portal from autoConnect if connection failed
     void setEnableConfigPortal(boolean enable);
 
-    // if true (default) then stop the config portal from autoConnect when wifi is saved
-    void setDisableConfigPortal(boolean enable);
-
     // set a custom hostname, sets sta and ap dhcp client id for esp32, and sta for esp8266
     bool setHostname(const char *hostname);
-    bool setHostname(String hostname);
 
     // show erase wifi onfig button on info page, true
     void setShowInfoErase(boolean enabled);
@@ -387,7 +369,6 @@ public:
 
     // get a status as string
     String getWLStatusString(uint8_t status);
-    String getWLStatusString();
 
     // get wifi mode as string
     String getModeString(uint8_t mode);
@@ -408,7 +389,7 @@ public:
     void debugPlatformInfo();
 
     // helper for html
-    String htmlEntities(String str, bool whitespace = false);
+    String htmlEntities(String str);
 
     // set the country code for wifi settings, CN
     void setCountry(String cc);
@@ -439,13 +420,13 @@ public:
 
     std::unique_ptr<DNSServer> dnsServer;
 
-#if defined(ESP32) && defined(WM_WEBSERVERSHIM)
-    using WM_WebServer = WebServer;
+#if defined(ESP32) && defined(AWM_WEBSERVERSHIM)
+    using AWM_WebServer = AsyncWebServer;
 #else
-    using WM_WebServer = ESP8266WebServer;
+    using AWM_WebServer = ESP8266WebServer;
 #endif
 
-    std::unique_ptr<WM_WebServer> server;
+    std::unique_ptr<AWM_WebServer> server;
 
 private:
     // vars
@@ -487,21 +468,22 @@ private:
 
     WiFiMode_t _usermode = WIFI_STA;           // Default user mode
     String _wifissidprefix = FPSTR(S_ssidpre); // auto apname prefix prefix+chipid
+
+    uint8_t _lastconxresult = WL_IDLE_STATUS;  // store last result when doing connect operations
+    int _numNetworks = 0;                      // init index for numnetworks wifiscans
+    unsigned long _lastscan = 0;               // ms for timing wifi scans
+    unsigned long _startscan = 0;              // ms for timing wifi scans
     int _cpclosedelay = 2000;                  // delay before wifisave, prevents captive portal from closing to fast.
     bool _cleanConnect = false;                // disconnect before connect in connectwifi, increases stability on connects
     bool _connectonsave = true;                // connect to wifi when saving creds
     bool _disableSTA = false;                  // disable sta when starting ap, always
     bool _disableSTAConn = true;               // disable sta when starting ap, if sta is not connected ( stability )
     bool _channelSync = false;                 // use same wifi sta channel when starting ap
-    int32_t _apChannel = 0;                    // default channel to use for ap, 0 for auto
+    int32_t _apChannel = 0;                    // channel to use for ap
     bool _apHidden = false;                    // store softap hidden value
     uint16_t _httpPort = 80;                   // port for webserver
     // uint8_t       _retryCount             = 0; // counter for retries, probably not needed if synchronous
-    uint8_t _connectRetries = 1;  // number of sta connect retries, force reconnect, wait loop (connectimeout) does not always work and first disconnect bails
-    bool _aggresiveReconn = true; // use an agrressive reconnect strategy, WILL delay conxs
-                                  // on some conn failure modes will add delays and many retries to work around esp and ap bugs, ie, anti de-auth protections
-                                  // https://github.com/lbussy/AsyncWiFiManager/issues/1067
-    bool _allowExit = true;       // allow exit in nonblocking, else user exit/abort calls will be ignored including cptimeout
+    uint8_t _connectRetries = 1; // number of sta connect retries, force reconnect, wait loop (connectimeout) does not always work and first disconnect bails
 
 #ifdef ESP32
     wifi_event_id_t wm_event_id = 0;
@@ -530,10 +512,8 @@ private:
     boolean _showInfoErase = true;           // info page erase button
     boolean _showInfoUpdate = true;          // info page update button
     boolean _showBack = false;               // show back button
-    boolean _enableConfigPortal = true;      // FOR autoconnect - start config portal if autoconnect failed
-    boolean _disableConfigPortal = true;     // FOR autoconnect - stop config portal if cp wifi save
-    String _hostname = "";                   // hostname for esp8266 for dhcp, and or MDNS
-
+    boolean _enableConfigPortal = true;      // use config portal if autoconnect failed
+    const char *_hostname = "";              // hostname for esp8266 for dhcp, and or MDNS
     const char *_customHeadElement = ""; // store custom head element html from user isnide <head>
     const char *_customMenuHTML = "";    // store custom head element html from user inside <>
     String _bodyClass = "";              // class to add to body
@@ -542,7 +522,6 @@ private:
     // internal options
 
     // wifiscan notes
-    // currently disabled due to issues with caching, sometimes first scan is empty esp32 wifi not init yet race, or portals hit server nonstop flood
     // The following are background wifi scanning optimizations
     // experimental to make scans faster, preload scans after starting cp, and visiting home page, so when you click wifi its already has your list
     // ideally we would add async and xhr here but I am holding off on js requirements atm
@@ -576,7 +555,6 @@ private:
 
     bool startAP();
     void setupDNSD();
-    void setupHTTPServer();
 
     uint8_t connectWifi(String ssid, String pass, bool connect = true);
     bool setSTAConfig();
@@ -694,48 +672,47 @@ private:
         DEBUG_VERBOSE = 2,
         DEBUG_DEV = 3, // default dev
         DEBUG_MAX = 4
-    } wm_debuglevel_t;
+    } awm_debuglevel_t;
 
     boolean _debug = true;
     String _debugPrefix = FPSTR(S_debugPrefix);
 
-    wm_debuglevel_t debugLvlShow = DEBUG_VERBOSE; // at which level start showing [n] level tags
+    awm_debuglevel_t debugLvlShow = DEBUG_VERBOSE; // at which level start showing [n] level tags
 
 // build debuglevel support
 // @todo use DEBUG_ESP_x?
 
 // Set default debug level
-#ifndef WM_DEBUG_LEVEL
-#define WM_DEBUG_LEVEL DEBUG_VERBOSE // development default, not release
+#ifndef AWM_DEBUG_LEVEL
+#define AWM_DEBUG_LEVEL DEBUG_VERBOSE // development default, not release
 #endif
 
 // override debug level OFF
-#ifdef WM_NODEBUG
-#undef WM_DEBUG_LEVEL
+#ifdef AWM_NODEBUG
+#undef AWM_DEBUG_LEVEL
 #endif
 
-#ifdef WM_DEBUG_LEVEL
-    uint8_t _debugLevel = (uint8_t)WM_DEBUG_LEVEL;
+#ifdef AWM_DEBUG_LEVEL
+    uint8_t _debugLevel = (uint8_t)AWM_DEBUG_LEVEL;
 #else
     uint8_t _debugLevel = DEBUG_VERBOSE; // default debug level
 #endif
 
 // @todo use DEBUG_ESP_PORT ?
-#ifdef WM_DEBUG_PORT
-    Print &_debugPort = WM_DEBUG_PORT;
+#ifdef AWM_DEBUG_PORT
 #else
     Print &_debugPort = Serial;          // debug output stream ref
 #endif
 
     template <typename Generic>
-    void DEBUG_WM(Generic text);
+    void DEBUG_AWM(Generic text);
 
     template <typename Generic>
-    void DEBUG_WM(wm_debuglevel_t level, Generic text);
+    void DEBUG_AWM(awm_debuglevel_t level, Generic text, bool cr = true);
     template <typename Generic, typename Genericb>
-    void DEBUG_WM(Generic text, Genericb textb);
+    void DEBUG_AWM(Generic text, Genericb textb, bool cr = true);
     template <typename Generic, typename Genericb>
-    void DEBUG_WM(wm_debuglevel_t level, Generic text, Genericb textb);
+    void DEBUG_AWM(awm_debuglevel_t level, Generic text, Genericb textb, bool cr = true);
 
     // callbacks
     // @todo use cb list (vector) maybe event ids, allow no return value
@@ -755,7 +732,7 @@ private:
     }
     auto optionalIPFromString(...) -> bool
     {
-        // DEBUG_WM("NO fromString METHOD ON IPAddress, you need ESP8266 core 2.1.0 or newer for Custom IP configuration to work.");
+        // DEBUG_AWM("NO fromString METHOD ON IPAddress, you need ESP8266 core 2.1.0 or newer for Custom IP configuration to work.");
         return false;
     }
 };

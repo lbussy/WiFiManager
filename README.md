@@ -1,7 +1,7 @@
 # AsyncWiFiManager
 Async ESP8266 WiFi Connection manager with fallback web configuration portal.
 
-:exclamation: This is a private repo fork for my personal use.  It should not be used by other projects.  This fork is early work to enable Async capabilities, not all paths have been tested.  Additonally, the below documentation has not been validated, so it may be lagging development.
+:exclamation: This is a private repo fork for my personal use. It should not be used by other projects. This fork is early work to enable Async capabilities, not all paths have been tested. Additonally, the below documentation has not been validated, so it may be lagging development.  Finally I did a LOT of global search/replaces, so some of those have absolutely done bad things.  You have been warned.
 
 ## DEVELOPMENT Version
 
@@ -9,29 +9,19 @@ Espressif ESPx WiFi Connection manager with fallback web configuration portal
 
 :warning: This Documentation is out of date, see notes below
 
-![Release](https://img.shields.io/github/v/release/tzapu/AsyncWiFiManager?include_prereleases)
-
 ![Build CI Status](https://github.com/lbussy/AsyncWiFiManager/actions/workflows/compile_library.yml/badge.svg)
 
 ![Build CI Status Examples](https://github.com/lbussy/AsyncWiFiManager/actions/workflows/compile_examples.yaml/badge.svg)
 
-[![arduino-library-badge](https://www.ardu-badge.com/badge/AsyncWiFiManager.svg?)](https://www.ardu-badge.com/AsyncWiFiManager)
-
-[![Build with PlatformIO](https://img.shields.io/badge/PlatformIO-Library-orange?)](https://platformio.org/lib/show/567/AsyncWiFiManager/installation)
-
 ![ESP8266](https://img.shields.io/badge/ESP-8266-000000.svg?longCache=true&style=flat&colorA=CC101F)
 
 ![ESP32](https://img.shields.io/badge/ESP-32-000000.svg?longCache=true&style=flat&colorA=CC101F)
-![ESP32](https://img.shields.io/badge/ESP-32S2-000000.svg?longCache=true&style=flat&colorA=CC101F)
-![ESP32](https://img.shields.io/badge/ESP-32C3-000000.svg?longCache=true&style=flat&colorA=CC101F)
 
-Member to Member Support / Chat
-
- [![Join the chat at https://gitter.im/tablatronix/AsyncWiFiManager](https://badges.gitter.im/tablatronix/AsyncWiFiManager.svg)](https://gitter.im/tablatronix/AsyncWiFiManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+ [![Join the chat at https://gitter.im/lbussy/AsyncWiFiManager](https://badges.gitter.im/lbussy/AsyncWiFiManager.svg)](https://gitter.im/lbussy/AsyncWiFiManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  
-[![Discord](https://img.shields.io/badge/Discord-AsyncWiFiManager-%237289da.svg?logo=discord)](https://discord.gg/dkjJbHwC)
-
 The configuration portal is of the captive variety, so on various devices it will present the configuration dialogue as soon as you connect to the created access point.
+
+First attempt at a library. Lots more changes and fixes to do. Contributions are welcome.
 
 **This works with the ESP8266 Arduino platform**
 
@@ -198,8 +188,8 @@ lib_deps =
 ```
 [env]
 lib_deps =
-	https://github.com/lbussy/AsyncWiFiManager.git#development
-``` -->
+	https://github.com/lbussy/AsyncWiFiManager.git
+```
 
 ## Documentation
 
@@ -240,6 +230,7 @@ IF YOU NEED TO SAVE PARAMETERS EVEN ON WIFI FAIL OR EMPTY, you must set `setBrea
 ```
 
 See [AutoConnectWithFSParameters Example](https://github.com/lbussy/AsyncWiFiManager/tree/master/examples/Parameters/SPIFFS/AutoConnectWithFSParameters).
+
 ```cpp
 AsyncWiFiManager.setSaveConfigCallback(saveConfigCallback);
 ```
@@ -545,7 +536,7 @@ __THANK YOU__
 
 The esp8266 and esp32 arduino and idf maintainers!
 
-[Shawn A aka tablatronix](https://github.com/tablatronix)
+[Shawn A aka lbussy](https://github.com/lbussy)
 
 [liebman](https://github.com/liebman)
 
@@ -587,4 +578,4 @@ And countless others
  * http://www.esp8266.com/viewtopic.php?f=29&t=2520
  * https://github.com/chriscook8/esp-arduino-apboot
  * https://github.com/esp8266/Arduino/tree/master/libraries/DNSServer/examples/CaptivePortalAdvanced
- * Built by AlexT https://github.com/tzapu
+ * Built by AlexT https://github.com/lbussy

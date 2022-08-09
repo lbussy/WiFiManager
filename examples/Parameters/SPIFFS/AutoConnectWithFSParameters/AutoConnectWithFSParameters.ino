@@ -1,5 +1,6 @@
-#include <FS.h>                   //this needs to be first, or it all crashes and burns...
-#include <AsyncWiFiManager.h>          //https://github.com/lbussy/AsyncWiFiManager
+#include <FS.h>          // this needs to be first, or it all crashes and burns...
+#include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
+#include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 
 #ifdef ESP32
   #include <SPIFFS.h>

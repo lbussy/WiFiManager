@@ -58,7 +58,8 @@ input,button,select,.msg{
 	border-radius:.3rem;
     width: 100%;
 }
-input[type=radio],input[type=checkbox]{
+
+input[type=radio]{
     width: auto;
 }
 button,input[type="button"],input[type="submit"] {
@@ -302,6 +303,9 @@ button:hover{
 			<div class='msg S'><h4>H4 Color Header S</h4>content</div>
 			<!-- /SAMPLE -->
 			<!-- SAMPLE -->
+			<div class='msg S'><h4>H4 Color Header S</h4>content</div>
+			<!-- /SAMPLE -->	
+			<!-- SAMPLE -->
 			<h2>/info</h3><hr>
 			<dl>
 				<dt>Chip ID</dt><dd>123456</dd>
@@ -344,6 +348,7 @@ button:hover{
 			<form method='POST' action='u' enctype='multipart/form-data'>
 				<input type='file' name='update' accept='.bin,application/octet-stream' onchange="(function(el){document.getElementById('uploadbin').style.display = el.value=='' ? 'none' : 'initial';})(this)">
 				<button id='uploadbin' class="h">Submit</button>
+
 			<a href='http://192.168.4.1' target='_blank'><small>* Upload may not function inside captive portal, Open in browser - http://192.168.4.1</a></small>
 			<!-- /FORM_UPLOAD -->
 
@@ -380,6 +385,17 @@ button:hover{
 			</select>
 
 			</form>
+
+			<!-- /FORM_EXTRAS -->
+
+			<!-- FORM_EXTRAS -->
+			<br/><br/><br/><hr>
+			<br/><label for='custom'>Label for Custom Param</label>
+			<br/><input id='custom' name='custom' length='255' placeholder='placeholder' value='' {c}>
+			<br/><input style='display: inline-block;' type='radio' id='choice1' name='program_selection' value='1'>
+  			<label for='choice1'>Choice1</label><br>
+  			<input style='display: inline-block;' type='radio' id='choice2' name='program_selection' value='2'>
+  			<label for='choice2'>Choice2</label><br>
 
 			<!-- /FORM_EXTRAS -->
 
