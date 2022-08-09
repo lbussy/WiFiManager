@@ -41,14 +41,10 @@ void setup() {
 }
 
 void loop() {
-<<<<<<< HEAD
-  doAsyncWiFiManager();
-=======
   #ifdef ESP8266
   MDNS.update();
   #endif
-  doWiFiManager();
->>>>>>> 01bd8a398b8cdd01edc6b8068818e2fec24c9157
+  doAsyncWiFiManager();
   // put your main code here, to run repeatedly:
 }
 

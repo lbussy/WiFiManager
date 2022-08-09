@@ -147,21 +147,21 @@ extern "C"
 #define WFM_NO_LABEL 0
 #define WFM_LABEL_DEFAULT 1
 
-class AsyncAsyncWiFiManagerParameter
+class AsyncWiFiManagerParameter
 {
 public:
     /**
         Create custom parameters that can be added to the AsyncWiFiManager setup web page
         @id is used for HTTP queries and must not contain spaces nor other special characters
     */
-    AsyncAsyncWiFiManagerParameter();
-    AsyncAsyncWiFiManagerParameter(const char *custom);
-    AsyncAsyncWiFiManagerParameter(const char *id, const char *label);
-    AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length);
-    AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom);
-    AsyncAsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement);
-    ~AsyncAsyncWiFiManagerParameter();
-    // AsyncAsyncWiFiManagerParameter& operator=(const AsyncAsyncWiFiManagerParameter& rhs);
+    AsyncWiFiManagerParameter();
+    AsyncWiFiManagerParameter(const char *custom);
+    AsyncWiFiManagerParameter(const char *id, const char *label);
+    AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length);
+    AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom);
+    AsyncWiFiManagerParameter(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement);
+    ~AsyncWiFiManagerParameter();
+    // AsyncWiFiManagerParameter& operator=(const AsyncWiFiManagerParameter& rhs);
 
     const char *getID() const;
     const char *getValue() const;
@@ -176,7 +176,7 @@ protected:
     void init(const char *id, const char *label, const char *defaultValue, int length, const char *custom, int labelPlacement);
 
 private:
-    AsyncAsyncWiFiManagerParameter &operator=(const AsyncAsyncWiFiManagerParameter &);
+    AsyncWiFiManagerParameter &operator=(const AsyncWiFiManagerParameter &);
     const char *_id;
     const char *_label;
     char *_value;
@@ -234,10 +234,10 @@ public:
     bool erase(bool opt);
 
     // adds a custom parameter, returns false on failure
-    bool addParameter(AsyncAsyncWiFiManagerParameter *p);
+    bool addParameter(AsyncWiFiManagerParameter *p);
 
     // returns the list of Parameters
-    AsyncAsyncWiFiManagerParameter **getParameters();
+    AsyncWiFiManagerParameter **getParameters();
 
     // returns the Parameters Count
     int getParametersCount();
@@ -681,10 +681,10 @@ private:
     boolean storeSTAmode = true; // option store persistent STA mode in connectwifi
     int timer = 0;               // timer for debug throttle for numclients, and portal timeout messages
 
-    // AsyncAsyncWiFiManagerParameter
+    // AsyncWiFiManagerParameter
     int _paramsCount = 0;
     int _max_params;
-    AsyncAsyncWiFiManagerParameter **_params = NULL;
+    AsyncWiFiManagerParameter **_params = NULL;
 
     // debugging
     typedef enum

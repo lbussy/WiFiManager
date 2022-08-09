@@ -296,13 +296,13 @@ Usage scenario would be:
 - add the custom parameters to AsyncWiFiManager using
 ```cpp
  // id/name, placeholder/prompt, default, length
- AsyncAsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
+ AsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
  AsyncWiFiManager.addParameter(&custom_mqtt_server);
 
 ```
 - if connection to AP fails, configuration portal starts and you can set /change the values (or use on demand configuration portal)
 - once configuration is done and connection is established save config callback() is called
-- once AsyncWiFiManager returns control to your application, read and save the new values using the `AsyncAsyncWiFiManagerParameter` object.
+- once AsyncWiFiManager returns control to your application, read and save the new values using the `AsyncWiFiManagerParameter` object.
 ```cpp
  mqtt_server = custom_mqtt_server.getValue();
 ```  
@@ -341,13 +341,13 @@ AsyncWiFiManager.setCustomHeadElement("<style>html{filter: invert(100%); -webkit
 ```
 - inject a custom bit of html in the configuration/param form
 ```cpp
-AsyncAsyncWiFiManagerParameter custom_text("<p>This is just a text paragraph</p>");
+AsyncWiFiManagerParameter custom_text("<p>This is just a text paragraph</p>");
 AsyncWiFiManager.addParameter(&custom_text);
 ```
 - inject a custom bit of html in a configuration form element
 Just add the bit you want added as the last parameter to the custom parameter constructor.
 ```cpp
-AsyncAsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", "iot.eclipse", 40, " readonly");
+AsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", "iot.eclipse", 40, " readonly");
 AsyncWiFiManager.addParameter(&custom_mqtt_server);
 ```
 
@@ -469,10 +469,10 @@ I get stuck in ap mode when the power goes out or modem resets, try a setConfigP
 `htmleEtities`
 
 
-#### AsyncAsyncWiFiManagerParameter
-`AsyncAsyncWiFiManagerParameter(id,label)`
+#### AsyncWiFiManagerParameter
+`AsyncWiFiManagerParameter(id,label)`
 
-`AsyncAsyncWiFiManagerParameter.setValue(value,length)`
+`AsyncWiFiManagerParameter.setValue(value,length)`
 
 `getParameters`
 

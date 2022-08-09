@@ -75,9 +75,9 @@ void setup() {
   // The extra parameters to be configured (can be either global or just in the setup)
   // After connecting, parameter.getValue() will get you the configured value
   // id/name placeholder/prompt default length
-  AsyncAsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
-  AsyncAsyncWiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
-  AsyncAsyncWiFiManagerParameter custom_api_token("apikey", "API token", api_token, 32);
+  AsyncWiFiManagerParameter custom_mqtt_server("server", "mqtt server", mqtt_server, 40);
+  AsyncWiFiManagerParameter custom_mqtt_port("port", "mqtt port", mqtt_port, 6);
+  AsyncWiFiManagerParameter custom_api_token("apikey", "API token", api_token, 32);
 
   //AsyncWiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around

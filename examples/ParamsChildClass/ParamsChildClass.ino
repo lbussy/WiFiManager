@@ -1,5 +1,5 @@
 /**
- * AsyncAsyncWiFiManagerParameter child class example
+ * AsyncWiFiManagerParameter child class example
  */
 #include <AsyncWiFiManager.h> // https://github.com/lbussy/AsyncWiFiManager
 #include <Arduino.h>
@@ -7,39 +7,39 @@
 
 #define SETUP_PIN 0
 
-class IPAddressParameter : public AsyncAsyncWiFiManagerParameter {
+class IPAddressParameter : public AsyncWiFiManagerParameter {
 public:
     IPAddressParameter(const char *id, const char *placeholder, IPAddress address)
-        : AsyncAsyncWiFiManagerParameter("") {
+        : AsyncWiFiManagerParameter("") {
         init(id, placeholder, address.toString().c_str(), 16, "", WFM_LABEL_BEFORE);
     }
 
     bool getValue(IPAddress &ip) {
-        return ip.fromString(AsyncAsyncWiFiManagerParameter::getValue());
+        return ip.fromString(AsyncWiFiManagerParameter::getValue());
     }
 };
 
-class IntParameter : public AsyncAsyncWiFiManagerParameter {
+class IntParameter : public AsyncWiFiManagerParameter {
 public:
     IntParameter(const char *id, const char *placeholder, long value, const uint8_t length = 10)
-        : AsyncAsyncWiFiManagerParameter("") {
+        : AsyncWiFiManagerParameter("") {
         init(id, placeholder, String(value).c_str(), length, "", WFM_LABEL_BEFORE);
     }
 
     long getValue() {
-        return String(AsyncAsyncWiFiManagerParameter::getValue()).toInt();
+        return String(AsyncWiFiManagerParameter::getValue()).toInt();
     }
 };
 
-class FloatParameter : public AsyncAsyncWiFiManagerParameter {
+class FloatParameter : public AsyncWiFiManagerParameter {
 public:
     FloatParameter(const char *id, const char *placeholder, float value, const uint8_t length = 10)
-        : AsyncAsyncWiFiManagerParameter("") {
+        : AsyncWiFiManagerParameter("") {
         init(id, placeholder, String(value).c_str(), length, "", WFM_LABEL_BEFORE);
     }
 
     float getValue() {
-        return String(AsyncAsyncWiFiManagerParameter::getValue()).toFloat();
+        return String(AsyncWiFiManagerParameter::getValue()).toFloat();
     }
 };
 
@@ -77,7 +77,7 @@ void setup() {
         AsyncWiFiManager wm;
         
         sett.s[19] = '\0';   //add null terminator at the end cause overflow
-        AsyncAsyncWiFiManagerParameter param_str( "str", "param_string",  sett.s, 20);
+        AsyncWiFiManagerParameter param_str( "str", "param_string",  sett.s, 20);
         FloatParameter param_float( "float", "param_float",  sett.f);
         IntParameter param_int( "int", "param_int",  sett.i);
 
