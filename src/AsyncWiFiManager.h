@@ -242,9 +242,6 @@ public:
     //called when wifi settings have been changed and connection was successful ( or setBreakAfterConfig(true) )
     void setSaveConfigCallback(std::function<void()> func);
 
-    //called when saving either params-in-wifi or params page
-    void setSaveParamsCallback(std::function<void()> func);
-
     //called when saving params-in-wifi or params before anything else happens (eg wifi)
     void setPreSaveConfigCallback(std::function<void()> func);
 
@@ -446,8 +443,6 @@ private:
 
     unsigned long _configPortalStart = 0;     // ms config portal start time (updated for timeouts)
     unsigned long _webPortalAccessed = 0;     // ms last web access time
-    uint8_t _lastconxresult = WL_IDLE_STATUS; // store last result when doing connect operations
-    int _numNetworks = 0;                     // init index for numnetworks wifiscans
     unsigned long _lastscan = 0;              // ms for timing wifi scans
     unsigned long _startscan = 0;             // ms for timing wifi scans
     unsigned long _startconn = 0;             // ms for timing wifi connects
@@ -468,11 +463,8 @@ private:
 
     WiFiMode_t _usermode = WIFI_STA;           // Default user mode
     String _wifissidprefix = FPSTR(S_ssidpre); // auto apname prefix prefix+chipid
-
     uint8_t _lastconxresult = WL_IDLE_STATUS;  // store last result when doing connect operations
     int _numNetworks = 0;                      // init index for numnetworks wifiscans
-    unsigned long _lastscan = 0;               // ms for timing wifi scans
-    unsigned long _startscan = 0;              // ms for timing wifi scans
     int _cpclosedelay = 2000;                  // delay before wifisave, prevents captive portal from closing to fast.
     bool _cleanConnect = false;                // disconnect before connect in connectwifi, increases stability on connects
     bool _connectonsave = true;                // connect to wifi when saving creds
