@@ -19,7 +19,7 @@ const char* modes[] = { "NULL", "STA", "AP", "STA+AP" };
 unsigned long mtime = 0;
 
 
-WiFiManager wm;
+AsyncWiFiManager wm;
 
 
 // TEST OPTION FLAGS
@@ -37,7 +37,7 @@ bool WMISBLOCKING    = true; // use blocking or non blocking mode, non global pa
 
 //callbacks
   // called after AP mode and config portal has started
-  //  setAPCallback( std::function<void(WiFiManager*)> func );
+  //  setAPCallback( std::function<void(AsyncWiFiManager*)> func );
   // called after webserver has started
   //  setWebServerCallback( std::function<void()> func );
   // called when settings reset have been triggered
@@ -55,8 +55,8 @@ void saveWifiCallback(){
   Serial.println("[CALLBACK] saveCallback fired");
 }
 
-//gets called when WiFiManager enters configuration mode
-void configModeCallback (WiFiManager *myWiFiManager) {
+//gets called when AsyncWiFiManager enters configuration mode
+void configModeCallback (AsyncWiFiManager *myWiFiManager) {
   Serial.println("[CALLBACK] configModeCallback fired");
   // myWiFiManager->setAPStaticIPConfig(IPAddress(10,0,1,1), IPAddress(10,0,1,1), IPAddress(255,255,255,0)); 
   // Serial.println(WiFi.softAPIP());

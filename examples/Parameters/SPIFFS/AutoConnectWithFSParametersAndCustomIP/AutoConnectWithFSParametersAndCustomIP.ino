@@ -100,10 +100,10 @@ void setup() {
 
   //AsyncWiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
-  AsyncWiFiManager wifiManager;
+  AsyncWiFiManager wm;
 
   //set config save notify callback
-  wifiManager.setSaveConfigCallback(saveConfigCallback);
+  wm.setSaveConfigCallback(saveConfigCallback);
 
   //set static ip
   IPAddress _ip, _gw, _sn;
@@ -111,30 +111,30 @@ void setup() {
   _gw.fromString(static_gw);
   _sn.fromString(static_sn);
 
-  wifiManager.setSTAStaticIPConfig(_ip, _gw, _sn);
+  wm.setSTAStaticIPConfig(_ip, _gw, _sn);
 
   //add all your parameters here
-  wifiManager.addParameter(&custom_mqtt_server);
-  wifiManager.addParameter(&custom_mqtt_port);
-  wifiManager.addParameter(&custom_api_token);
+  wm.addParameter(&custom_mqtt_server);
+  wm.addParameter(&custom_mqtt_port);
+  wm.addParameter(&custom_api_token);
 
   //reset settings - for testing
-  //wifiManager.resetSettings();
+  //wm.resetSettings();
 
   //set minimu quality of signal so it ignores AP's under that quality
   //defaults to 8%
-  wifiManager.setMinimumSignalQuality();
+  wm.setMinimumSignalQuality();
 
   //sets timeout until configuration portal gets turned off
   //useful to make it all retry or go to sleep
   //in seconds
-  //wifiManager.setTimeout(120);
+  //wm.setTimeout(120);
 
   //fetches ssid and pass and tries to connect
   //if it does not connect it starts an access point with the specified name
   //here  "AutoConnectAP"
   //and goes into a blocking loop awaiting configuration
-  if (!wifiManager.autoConnect("AutoConnectAP", "password")) {
+  if (!wm.autoConnect("AutoConnectAP", "password")) {
     Serial.println("failed to connect and hit timeout");
     delay(3000);
     //reset and try again, or maybe put it to deep sleep
